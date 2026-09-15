@@ -1,0 +1,88 @@
+# Default values for the fleetdm chart.
+
+fleet:
+  image:
+    repository: fleetdm/fleet
+    tag: "v4.57.0"
+    pullPolicy: IfNotPresent
+
+  replicaCount: 1
+
+  terminationGracePeriodSeconds: 30
+
+  tls: false
+
+  logging:
+    json: true
+    debug: false
+
+  resources:
+    requests:
+      cpu: 200m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 1Gi
+
+  service:
+    type: NodePort
+    port: 8080
+    nodePort: 30080
+
+  ingress:
+    enabled: false
+
+  database:
+    mysql:
+      hostOverride: ""
+      port: 3306
+    redis:
+      hostOverride: ""
+      port: 6379
+
+prepareDb:
+  enabled: true
+  backoffLimit: 6
+
+mysql:
+  enabled: true
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/mysql
+  auth:
+    rootPassword: "fleetdm-root-changeme"
+    database: "fleet"
+    username: "fleet"
+    password: "fleetdm-changeme"
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+    resources:
+      requests:
+        cpu: 250m
+        memory: 512Mi
+
+redis:
+  enabled: true
+  global:
+    security:
+      allowInsecureImages: true
+  image:
+    registry: docker.io
+    repository: bitnamilegacy/redis
+  architecture: standalone
+  auth:
+    enabled: false
+  master:
+    persistence:
+      enabled: false
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+  replica:
+    replicaCount: 0

@@ -1,0 +1,2 @@
+FleetDM has been deployed in namespace {{ .Release.Namespace }}.
+

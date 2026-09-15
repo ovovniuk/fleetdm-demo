@@ -1,0 +1,26 @@
+apiVersion: v2
+name: fleetdm
+description: A Helm chart to deploy FleetDM with a bundled MySQL and Redis backend
+type: application
+version: 0.1.0
+appVersion: "4.57.0"
+icon: https://raw.githubusercontent.com/fleetdm/fleet/main/website/public/images/fleet-logo-icon.png
+home: https://fleetdm.com
+sources:
+  - https://github.com/fleetdm/fleet
+keywords:
+  - fleetdm
+  - osquery
+  - mdm
+  - device-management
+maintainers:
+  - name: fleetdm-helm
+dependencies:
+  - name: mysql
+    version: "*"
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: mysql.enabled
+  - name: redis
+    version: "*"
+    repository: "oci://registry-1.docker.io/bitnamicharts"
+    condition: redis.enabled
